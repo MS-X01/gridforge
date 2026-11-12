@@ -1,0 +1,26 @@
+/* GridForge — base.css : reset, typography, scrollbars, background */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:13.5px;line-height:1.5;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body[data-font=sm]{font-size:12.5px}body[data-font=lg]{font-size:14.5px}body[data-font=xl]{font-size:16px}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+::selection{background:var(--acc-g);color:var(--text)}
+::-webkit-scrollbar{width:9px;height:9px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--bdr2);border-radius:9px;border:2px solid transparent;background-clip:padding-box}
+::-webkit-scrollbar-thumb:hover{background:var(--text4);background-clip:padding-box;border:2px solid transparent}
+::-webkit-scrollbar-corner{background:transparent}
+kbd{font-family:var(--mono);font-size:.78em;padding:1px 6px;border-radius:5px;background:var(--surf3);border:1px solid var(--bdr2);border-bottom-width:2px;color:var(--text2)}
+a{color:var(--acc)}
+.mono{font-family:var(--mono)}
+.muted{color:var(--text3)}
+.hide{display:none!important}
+.mesh{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse 60% 45% at 12% -5%,var(--acc-d),transparent 60%),radial-gradient(ellipse 50% 45% at 95% 105%,rgba(192,132,252,.09),transparent 60%)}
+.bggrid{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.35;
+  background-image:linear-gradient(var(--bdr) 1px,transparent 1px),linear-gradient(90deg,var(--bdr) 1px,transparent 1px);background-size:48px 48px;
+  mask-image:radial-gradient(ellipse at 50% 0%,#000 0%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 0%,transparent 75%)}
+body[data-bggrid=off] .bggrid{display:none}
+.prog{position:fixed;top:0;inset-inline-start:0;height:2px;width:0;background:linear-gradient(90deg,var(--acc),var(--acc3));z-index:999;transition:width .25s,opacity .4s;opacity:0;box-shadow:0 0 10px var(--acc)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<!-- Privacy: this app never talks to the network. connect-src 'none' enforces it at the browser level. -->
+<meta http-equiv="Content-Security-Policy" content="connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"/>
+<title>GridForge — local spreadsheet studio</title>
+<meta name="description" content="GridForge: an offline, open-source spreadsheet studio — build, clean, dedupe, validate, analyze and export tabular data. Nothing ever leaves your browser."/>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml"/>
+<link rel="stylesheet" href="css/tokens.css"/>
+<link rel="stylesheet" href="css/base.css"/>
+<link rel="stylesheet" href="css/layout.css"/>
+<link rel="stylesheet" href="css/components.css"/>
+<link rel="stylesheet" href="css/grid.css"/>
+</head>
+<body>
+<!-- icon sprite (stroke icons) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-cols" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M15 3v18"/></symbol>
+<symbol id="i-clean" viewBox="0 0 24 24"><path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></symbol>
+<symbol id="i-fill" viewBox="0 0 24 24"><path d="M15 4V2M15 16v-2M8 9h2M20 9h2M17.8 11.8L19 13M17.8 6.2L19 5M3 21l9-9M12.2 6.2L11 5"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></symbol>
+<symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></symbol>
+<symbol id="i-merge" viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></symbol>
+<symbol id="i-undo" viewBox="0 0 24 24"><path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 010 12h-3"/></symbol>
+<symbol id="i-redo" viewBox="0 0 24 24"><path d="M15 14l5-5-5-5"/><path d="M20 9H10a6 6 0 000 12h3"/></symbol>
+<symbol id="i-up" viewBox="0 0 24 24"><path d="M12 16V4M7 9l5-5 5 5M4 20h16"/></symbol>
+<symbol id="i-down" viewBox="0 0 24 24"><path d="M12 4v12M7 11l5 5 5-5M4 20h16"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></symbol>
+<symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9L7 7M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></symbol>
+<symbol id="i-cmd" viewBox="0 0 24 24"><path d="M9 6a3 3 0 10-3 3h12a3 3 0 10-3-3v12a3 3 0 103-3H6a3 3 0 103 3z"/></symbol>
+<symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 115 0c0 1.5-2.5 2-2.5 4M12 17h.01"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+<symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></symbol>
+<symbol id="i-filter" viewBox="0 0 24 24"><path d="M3 5h18l-7 8v6l-4-2v-4z"/></symbol>
+<symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+<symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></symbol>
+<symbol id="i-more" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+<symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></symbol>
+<symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M14 3v5h5"/></symbol>
+<symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 00-2-2H6a2 2 0 00-2 2v8a2 2 0 002 2h2"/></symbol>
+<symbol id="i-table" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M3 15h18M9 4v16"/></symbol>
+<symbol id="i-panel" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></symbol>
+</defs></svg>
+
+<div class="mesh"></div><div class="bggrid"></div>
+<div class="prog" id="prog"></div>
+<div class="drop-veil" id="dropVeil"><span data-i18n="drop.here">Drop a file to open it</span></div>
+
+<header class="topbar">
+  <a class="logo" href="#" id="logo" title="GridForge">
+    <img src="assets/logo.svg" width="32" height="32" alt="" style="filter:drop-shadow(0 0 10px var(--acc-g))"/>
+    <b>GridForge</b><small>v1.0</small>
+  </a>
+  <div class="tb-mid"><input class="proj" id="projName" data-i18n-ph="proj.placeholder" placeholder="Untitled workbook" maxlength="80" autocomplete="off" spellcheck="false"/></div>
+  <div class="tb-grp">
+    <button class="btn ico" id="btnUndo" data-i18n-title="act.undo" title="Undo"><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-undo"/></svg></button>
+    <button class="btn ico" id="btnRedo" data-i18n-title="act.redo" title="Redo"><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-redo"/></svg></button>
+    <span class="vsep hide-sm"></span>
+    <button class="btn hide-sm" id="btnPalette" data-i18n-title="act.palette" title="Command palette"><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-cmd"/></svg><kbd>Ctrl K</kbd></button>
+    <button class="btn" id="btnImport"><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-up"/></svg><span class="hide-sm" data-i18n="act.import">Import</span></button>
+    <button class="btn ok" id="btnExport"><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-down"/></svg><span class="hide-sm" data-i18n="act.export">Export</span></button>
+    <span class="vsep"></span>
+    <button class="btn ico" id="btnTheme" data-i18n-title="act.theme" title="Theme"><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-moon"/></svg></button>
+    <button class="btn ico" id="btnLang" data-i18n-title="act.lang" title="Language"><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-globe"/></svg></button>
+    <button class="btn ico" id="btnSettings" data-i18n-title="act.settings" title="Settings"><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-gear"/></svg></button>
+    <button class="btn ico hide-sm" id="btnHelp" data-i18n-title="act.help" title="Shortcuts"><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-help"/></svg></button>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="rail" id="rail" aria-label="Tools">
+    <button data-panel="columns"><svg fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#i-cols"/></svg><span data-i18n="p.columns">Columns</span></button>
+    <button data-panel="clean"><svg fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#i-clean"/></svg><span data-i18n="p.clean">Clean</span></button>
+    <button data-panel="fill"><svg fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#i-fill"/></svg><span data-i18n="p.fill">Fill</span></button>
+    <button data-panel="validate"><svg fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#i-check"/></svg><span data-i18n="p.validate">Validate</span></button>
+    <button data-panel="analyze"><svg fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#i-chart"/></svg><span data-i18n="p.analyze">Analyze</span></button>
+    <button data-panel="combine"><svg fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#i-merge"/></svg><span data-i18n="p.combine">Combine</span></button>
+  </nav>
+  <aside class="panel" id="panel"><div class="panel-head"><h2 id="panelTitle"></h2><button class="x-btn" id="panelClose" data-i18n-title="act.close" title="Close"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><use href="#i-x"/></svg></button></div><div class="panel-body" id="panelBody"></div></aside>
+
+  <main class="stage">
+    <div class="toolbar" id="toolbar">
+      <div class="search">
+        <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><use href="#i-search"/></svg>
+        <input id="q" type="search" data-i18n-ph="search.ph" placeholder="Search…  ( / )" autocomplete="off" spellcheck="false"/>
+        <div class="sk"><button class="tgl" id="tCase" title="Match case">Aa</button><button class="tgl" id="tRx" title="Regex">.*</button></div>
+      </div>
+      <select class="in" id="qScope" style="width:auto;max-width:160px"></select>
+      <button class="btn" id="btnFilter"><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-filter"/></svg><span data-i18n="tb.filter">Filter</span></button>
+      <button class="btn" id="btnColsVis"><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-eye"/></svg><span class="hide-sm" data-i18n="tb.columns">Columns</span></button>
+      <span class="grow"></span>
+      <button class="btn" id="btnAddRow"><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><use href="#i-plus"/></svg><span data-i18n="tb.row">Row</span></button>
+      <button class="btn" id="btnRowMenu"><span data-i18n="tb.rows">Rows ▾</span></button>
+      <button class="btn" id="btnPanelToggle" data-i18n-title="act.panel" title="Toggle tool panel"><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-panel"/></svg></button>
+    </div>
+    <div class="filterbar" id="filterbar"></div>
+    <div class="gridwrap" id="gridwrap">
+      <div class="gscroll" id="gscroll" tabindex="0"><table class="grid" id="grid"><thead id="ghead"></thead><tbody id="gbody"></tbody></table></div>
+      <div class="welcome" id="welcome"></div>
+    </div>
+    <div class="sheetbar" id="sheetbar"></div>
+  </main>
+</div>
+
+<footer class="statusbar" id="statusbar">
+  <span id="sbRows"></span><span id="sbSel"></span><span class="grow"></span>
+  <span id="sbFile"></span><span><i class="dot" id="sbDot"></i><span id="sbSave"></span></span>
+  <span class="hide-sm">🔒 <span data-i18n="sb.local">100% local</span></span>
+</footer>
+
+<div id="menus"></div><div id="modals"></div><div class="toasts" id="toasts"></div>
+<input type="file" id="fileInput" style="display:none" accept=".csv,.tsv,.txt,.json,.jsonl,.xlsx,.xls,.xlsm,.ods"/>
+
+<script src="vendor/xlsx.full.min.js"></script>
+<script src="js/core/utils.js"></script>
+<script src="js/core/i18n.js"></script>
+<script src="js/core/store.js"></script>
+<script src="js/engine/parse.js"></script>
+<script src="js/engine/formula.js"></script>
+<script src="js/engine/ops.js"></script>
+<script src="js/engine/generate.js"></script>
+<script src="js/engine/analyze.js"></script>
+<script src="js/engine/export.js"></script>
+<script src="js/engine/templates.js"></script>
+<script src="js/ui/kit.js"></script>
+<script src="js/ui/grid.js"></script>
+<script src="js/ui/panels.js"></script>
+<script src="js/ui/dialogs.js"></script>
+<script src="js/ui/chrome.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+{
+  "name": "gridforge",
+  "version": "1.0.0",
+  "description": "Offline, open-source spreadsheet studio \u2014 build, clean, dedupe, validate, analyze and export tabular data. Nothing leaves your browser.",
+  "license": "MIT",
+  "private": false,
+  "author": "Mohammad Sadra Naderi (ZVitoX)",
+  "keywords": [
+    "spreadsheet",
+    "csv",
+    "excel",
+    "data-cleaning",
+    "deduplicate",
+    "offline",
+    "persian",
+    "rtl",
+    "vanilla-js"
+  ],
+  "scripts": {
+    "start": "python3 -m http.server 8080",
+    "test": "node tests/run.js",
+    "test:e2e": "node tests/e2e.js"
+  },
+  "devDependencies": {
+    "playwright": "^1.50.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MS-X01/gridforge.git"
+  },
+  "homepage": "https://github.com/MS-X01/gridforge#readme",
+  "bugs": {
+    "url": "https://github.com/MS-X01/gridforge/issues"
+  }
+}

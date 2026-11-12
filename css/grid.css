@@ -1,0 +1,47 @@
+/* GridForge — grid.css : the virtualised data grid */
+body{--rh:32px;--rn-w:56px}
+body[data-density=compact]{--rh:26px}body[data-density=comfort]{--rh:42px}
+.gscroll{flex:1;min-width:0;overflow:auto;position:relative;outline:none;background:var(--surf)}
+table.grid{border-collapse:separate;border-spacing:0;table-layout:fixed;width:max-content;font-size:inherit}
+.grid th,.grid td{height:var(--rh);padding:0 10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border-bottom:1px solid var(--bdr);text-align:start;unicode-bidi:plaintext;line-height:calc(var(--rh) - 1px)}
+body[data-borders=on] .grid td,body[data-borders=on] .grid th{border-inline-end:1px solid var(--bdr)}
+.grid thead th{position:sticky;top:0;z-index:4;background:var(--bg3);font-weight:700;border-bottom:2px solid var(--bdr2);user-select:none;padding:0;height:calc(var(--rh) + 8px);line-height:1.2}
+.grid .rn{position:sticky;inset-inline-start:0;z-index:3;width:var(--rn-w);min-width:var(--rn-w);max-width:var(--rn-w);text-align:center;padding:0;background:var(--bg3);color:var(--text4);font:500 11px/var(--rh) var(--mono);cursor:pointer;unicode-bidi:normal;border-inline-end:1px solid var(--bdr2)}
+body[data-rownums=off] .grid .rn{--rn-w:14px;font-size:0}
+.grid thead .rn{z-index:6;cursor:default}
+.grid tbody tr:hover td{background:var(--row-h)}
+body[data-zebra=on] .grid tbody tr:nth-child(even) td{background:var(--row-e)}
+.grid tbody tr:hover .rn,.grid .rn.rsel{color:var(--acc);background:var(--bg3)}
+.grid td{background:var(--surf);cursor:cell;position:relative}
+body[data-zebra=on] .grid tbody tr:nth-child(even) td{background:color-mix(in srgb,var(--surf),var(--text) 2.4%)}
+.grid td.t-number,.grid td.t-date{font-family:var(--mono);font-size:.94em;font-variant-numeric:tabular-nums;unicode-bidi:normal}
+.grid td.t-number{text-align:end;direction:ltr}
+.grid td.t-boolean{text-align:center}
+.grid td.t-boolean.yes{color:var(--grn)}.grid td.t-boolean.no{color:var(--red)}
+.grid td.t-email{color:var(--grn)}.grid td.t-url{color:var(--acc2)}
+.grid td.sel{background:var(--sel)!important}
+.grid td.cur{outline:2px solid var(--acc);outline-offset:-2px;background:var(--surf)!important;z-index:1}
+.grid td.dup{background:var(--yel-d)!important;box-shadow:inset 3px 0 0 var(--yel)}
+.grid td.bad{background:var(--red-d)!important;text-decoration:underline wavy var(--red) 1px;text-underline-offset:4px}
+.grid td.editing{padding:0;overflow:visible;z-index:5;outline:2px solid var(--acc);outline-offset:-2px}
+.grid td.editing input,.grid td.editing select{width:100%;height:100%;border:0;outline:none;background:var(--surf);padding:0 10px;font:inherit;color:var(--text);unicode-bidi:plaintext}
+body[data-freeze=on] .grid th.frz,body[data-freeze=on] .grid td.frz{position:sticky;inset-inline-start:var(--rn-w);z-index:2;box-shadow:2px 0 0 var(--bdr2)}
+body[data-freeze=on] .grid thead th.frz{z-index:5}
+.grid td.frz{background:var(--surf)}
+.grid mark{background:var(--yel-d);color:var(--yel);border-radius:3px;padding:0 1px;box-shadow:0 0 0 1px var(--yel)}
+.grid tr.spacer td{padding:0;border:0;height:auto;background:transparent!important}
+
+.ch{display:flex;align-items:center;gap:6px;height:100%;padding:0 6px 0 10px;padding-inline:10px 4px;position:relative}
+.ch .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer;display:flex;flex-direction:column;justify-content:center;gap:1px}
+.ch .nm b{font-size:12px;font-weight:700;overflow:hidden;text-overflow:ellipsis}
+.ch .nm small{font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;display:flex;gap:5px;align-items:center}
+.ch .sortb{font-family:var(--mono);color:var(--acc);font-size:10px}
+.ch .more{width:22px;height:22px;border-radius:6px;border:0;background:transparent;color:var(--text4);display:grid;place-items:center;opacity:0;transition:.15s;flex-shrink:0}
+.ch:hover .more,.ch .more:focus-visible{opacity:1}
+.ch .more:hover{background:var(--surf3);color:var(--acc)}
+.ch .rz{position:absolute;inset-inline-end:-3px;top:0;bottom:0;width:8px;cursor:col-resize;z-index:2}
+.ch .rz:hover,.ch .rz.on{background:linear-gradient(90deg,transparent 3px,var(--acc) 3px,var(--acc) 5px,transparent 5px)}
+.grid th.hasfilter .ch .nm b::after{content:' ●';color:var(--acc);font-size:8px}
+.grid th.colsel{background:var(--surf3)}
+.empty-note{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;color:var(--text3);pointer-events:none}
+.empty-note .e{font-size:34px;opacity:.6}

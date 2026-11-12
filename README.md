@@ -13,7 +13,7 @@
 **Build, clean, de-duplicate, validate, analyze and export tabular data — entirely in your browser.**
 <br/>No server. No upload. No account. No build step. Just open `index.html`.
 
-[🌐 **Live demo:**](https://ms-x01.github.io/gridforge/) [**Quick start**](#-quick-start) · [**Features**](#-feature-tour) · [**Screenshots**](#-screenshots) · [**Formulas**](docs/FORMULAS.md) · [**Architecture**](docs/ARCHITECTURE.md) · [**FAQ**](#-faq)
+[🌐 **Live demo**](https://ms-x01.github.io/gridforge/) · [**Quick start**](#-quick-start) · [**Features**](#-feature-tour) · [**Screenshots**](#-screenshots) · [**Formulas**](docs/FORMULAS.md) · [**Architecture**](docs/ARCHITECTURE.md) · [**FAQ**](#-faq)
 
 <img src="assets/divider.svg" width="100%" alt=""/>
 
